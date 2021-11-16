@@ -9,7 +9,7 @@ package ch.sooon.billing
 
 import android.app.Activity
 import android.os.Bundle
-import ch.sooon.billing.MyWatchFace.Companion.billingDataSource
+import ch.sooon.billing.MyWatchFace.Companion.billingManager
 import ch.sooon.billing.databinding.BaseActivityBinding
 
 class BaseActivity : Activity() {
@@ -22,7 +22,7 @@ class BaseActivity : Activity() {
 		binding = BaseActivityBinding.inflate(layoutInflater)
 		val view = binding.root
 		setContentView(view)
-       	billingDataSource?.launchBillingFlow(this, "billing_premium")
+       	billingManager?.launchPurchaseFlow(this)
 	}
 
 }

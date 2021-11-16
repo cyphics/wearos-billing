@@ -19,10 +19,7 @@ import androidx.palette.graphics.Palette
 import android.support.wearable.watchface.CanvasWatchFaceService
 import android.support.wearable.watchface.WatchFaceService
 import android.support.wearable.watchface.WatchFaceStyle
-import android.util.Log
 import android.view.SurfaceHolder
-import android.widget.Toast
-import androidx.lifecycle.MediatorLiveData
 import kotlinx.coroutines.GlobalScope
 
 import java.lang.ref.WeakReference
@@ -65,9 +62,8 @@ class MyWatchFace : CanvasWatchFaceService() {
     private val TAG = this.javaClass.simpleName
 
     companion object {
-        var premiumObserver: MediatorLiveData<Boolean> = MediatorLiveData()
         var isPremium = false
-        var billingDataSource: BillingDataSource? = null
+        var billingManager: BillingManager? = null
     }
 
     override fun onCreateEngine(): Engine {
@@ -142,10 +138,10 @@ class MyWatchFace : CanvasWatchFaceService() {
 
             initializeBackground()
             initializeWatchFace()
-            billingDataSource  = BillingDataSource.getInstance(application, GlobalScope, arrayOf("premium_sku"), null, null)
-            premiumObserver.observeForever{
-                Log.d(TAG, "Premium unlocked!")
-                isPremium = true
+            billingManager  = BillingManager.getInstance(application, GlobalScope, listOf("premium_sku"))
+            billingManager?.subscribe {
+                // Load premium status from shared preferences
+                // Handle new purchase result here
             }
         }
 
